@@ -4,7 +4,6 @@ import java.io.DataInputStream
 import java.io.DataOutputStream
 import java.net.ServerSocket
 import java.net.Socket
-import java.nio.ByteBuffer
 
 class Server(private val port: Int) : Thread() {
 
@@ -12,6 +11,7 @@ class Server(private val port: Int) : Thread() {
         super.run()
         try {
             val serverSocket = ServerSocket(port)
+            println("Server started and listening to port $port")
             while (true) {
                 val clientSocket = serverSocket.accept()
                 val clientThread = ClientThread(clientSocket)
@@ -31,6 +31,8 @@ class Server(private val port: Int) : Thread() {
                 val inputStream: DataInputStream = DataInputStream(clientSocket.getInputStream())
                 val outputStream: DataOutputStream =
                     DataOutputStream(clientSocket.getOutputStream())
+
+                println("New client connected!")
 
                 //val receivedBytes:ByteArray = ByteArray(bufferSize)
 
