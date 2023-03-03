@@ -39,9 +39,9 @@ class Server(private val port: Int) : Thread() {
 
                 val matrikelNummer: Long =
                     inputStream.readLong() //ByteBuffer.wrap(receivedBytes).long
-                val ergebnis: Long = calcMatNr(matrikelNummer);
+                val ergebnis: String = calcMatNr(matrikelNummer);
 
-                outputStream.writeLong(ergebnis)
+                outputStream.writeUTF(ergebnis)
                 outputStream.flush()
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -51,8 +51,15 @@ class Server(private val port: Int) : Thread() {
         }
     }
 
-    private fun calcMatNr(matNr: Long): Long {
-
-        return matNr;
+    private fun calcMatNr(matNr: Long): String {
+        var res: String = ""
+        for(i in matNr.toString().indices){
+            if(i%2 != 0){
+                res += matNr.toString()[i].code.toChar()
+                continue
+            }
+            res += matNr.toString()[i]
+        }
+        return res;
     }
 }
