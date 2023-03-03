@@ -26,15 +26,14 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         bnd = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(R.layout.activity_main)
+        setContentView(bnd.root)
 
         server = Server(port)
         server.start()
 
-        socket = Socket(domainname, port)
-
         val responseObservable = Observable.create<String> { emitter ->
             try {
+                socket = Socket(domainname, port)
                 val inputStream: DataInputStream = DataInputStream(socket.getInputStream())
                 val response: String = inputStream.readUTF()
 
@@ -55,9 +54,10 @@ class MainActivity : AppCompatActivity() {
                 { err -> err.printStackTrace() })
 
         bnd.btnSend.setOnClickListener {
-            if (bnd.txtMatrikelnummer.text.isEmpty()) {
+            if (bnd.txtMatrikelnummer.text.toString().isEmpty()) {
                 Toast.makeText(this, "Please enter a number!", Toast.LENGTH_SHORT).show()
             } else {
+                socket = Socket(domainname, port)
                 val matNr: Long = bnd.txtMatrikelnummer.text.toString().toLong()
 
                 bnd.btnSend.isEnabled = false

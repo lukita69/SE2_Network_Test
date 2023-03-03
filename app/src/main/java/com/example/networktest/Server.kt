@@ -11,7 +11,7 @@ class Server(private val port: Int) : Thread() {
     override fun run() {
         super.run()
         try {
-            val serverSocket = ServerSocket(port, 0, InetAddress.getByName("se2-isys.aau.at"))
+            val serverSocket = ServerSocket(port)
             println("Server started and listening to port $port")
             while (true) {
                 val clientSocket = serverSocket.accept()
@@ -22,6 +22,10 @@ class Server(private val port: Int) : Thread() {
             e.printStackTrace()
         }
     }
+
+    /*
+    I want to use a custom name, which can be used to connect to the server, instead of using localhost. the custom name should be "banane". how to modify the ServerSocket() method call to achieve this behaviour?
+     */
 
     inner class ClientThread(private val clientSocket: Socket) : Thread() {
         //val bufferSize: Int = 1024
