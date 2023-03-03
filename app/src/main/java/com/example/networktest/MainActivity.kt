@@ -31,12 +31,11 @@ class MainActivity : AppCompatActivity() {
             } else {
                 val matNr: String = bnd.txtMatrikelnummer.text.toString()
                 client.sendRequest(matNr, object: Client.ResponseListener{
-                    override fun onResponse(respose: String) {
+                    override fun onResponse(response: String) {
                         runOnUiThread {
-                            bnd.lblServerAnswer.text = respose
+                            bnd.lblServerAnswer.text = response
                         }
                     }
-
                 })
             }
         }
