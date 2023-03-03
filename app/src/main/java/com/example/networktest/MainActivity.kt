@@ -12,6 +12,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.DataInputStream
 import java.io.DataOutputStream
+import java.net.InetAddress
 import java.net.Socket
 
 class MainActivity : AppCompatActivity() {
@@ -57,7 +58,7 @@ class MainActivity : AppCompatActivity() {
             if (bnd.txtMatrikelnummer.text.toString().isEmpty()) {
                 Toast.makeText(this, "Please enter a number!", Toast.LENGTH_SHORT).show()
             } else {
-                socket = Socket(domainname, port)
+                socket = Socket("localhost", port)
                 val matNr: Long = bnd.txtMatrikelnummer.text.toString().toLong()
 
                 bnd.btnSend.isEnabled = false
