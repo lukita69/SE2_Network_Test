@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var bnd: ActivityMainBinding
 
-    private val port: Int = 53212;
+    private val port: Int = 53212
     private val domainname: String = "se2-isys.aau.at"
     private lateinit var server: Server
     private lateinit var socket: Socket
@@ -50,26 +50,27 @@ class MainActivity : AppCompatActivity() {
 
         responseObservable.subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                    res -> bnd.lblServerAnswer.text = res.toString()}, {
-                    err -> err.printStackTrace()})
+            .subscribe(
+                { res -> bnd.lblServerAnswer.text = res.toString() },
+                { err -> err.printStackTrace() })
 
         bnd.btnSend.setOnClickListener {
             if (bnd.txtMatrikelnummer.text.isEmpty()) {
                 Toast.makeText(this, "Please enter a number!", Toast.LENGTH_SHORT).show()
             } else {
-                var matNr: Long = bnd.txtMatrikelnummer.text.toString().toLong()
+                val matNr: Long = bnd.txtMatrikelnummer.text.toString().toLong()
 
                 bnd.btnSend.isEnabled = false
 
                 CoroutineScope(Dispatchers.IO).launch {
                     try {
-                        val outputStream: DataOutputStream = DataOutputStream(socket.getOutputStream())
+                        val outputStream: DataOutputStream =
+                            DataOutputStream(socket.getOutputStream())
 
                         outputStream.writeLong(matNr)
 
                         outputStream.close()
-                    }catch (e: Exception){
+                    } catch (e: Exception) {
                         e.printStackTrace()
                     }
                 }
@@ -79,7 +80,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        if(!socket.isClosed){
+        if (!socket.isClosed) {
             socket.close()
         }
     }
