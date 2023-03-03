@@ -2,6 +2,7 @@ package com.example.networktest
 
 import java.io.DataInputStream
 import java.io.DataOutputStream
+import java.net.InetAddress
 import java.net.ServerSocket
 import java.net.Socket
 
@@ -10,7 +11,7 @@ class Server(private val port: Int) : Thread() {
     override fun run() {
         super.run()
         try {
-            val serverSocket = ServerSocket(port)
+            val serverSocket = ServerSocket(port, 0, InetAddress.getByName("se2-isys.aau.at"))
             println("Server started and listening to port $port")
             while (true) {
                 val clientSocket = serverSocket.accept()
