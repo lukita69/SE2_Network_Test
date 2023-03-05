@@ -20,7 +20,7 @@ class Server(private val port: Int) {
         }
         Thread {
             try {
-                serverSocket = ServerSocket(port, 0, InetAddress.getByName("192.168.200.2"))
+                serverSocket = ServerSocket(port, 0, InetAddress.getByName("localhost"))
                 isRunning = true
                 println("Server started and listening to ${serverSocket.inetAddress.hostAddress}:$port")
                 conLatch.countDown()

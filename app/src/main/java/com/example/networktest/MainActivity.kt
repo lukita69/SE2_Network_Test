@@ -10,7 +10,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var bnd: ActivityMainBinding
 
     private val port: Int = 53212
-    private val domainname: String = "se2-isys.aau.at"
+    private val domainname: String = "localhost"
     private lateinit var server: Server
     private lateinit var client: Client
 
