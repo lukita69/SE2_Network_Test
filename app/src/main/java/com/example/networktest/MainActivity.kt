@@ -10,9 +10,11 @@ class MainActivity : AppCompatActivity() {
     private lateinit var bnd: ActivityMainBinding
 
     private val port: Int = 53212
-    private val domainname: String = "localhost"
+    private val localDomainname: String = "localhost"
+    private val globalDomainname: String = "se2-isys.aau.at"
     private lateinit var server: Server
-    private lateinit var client: Client
+    private lateinit var localClient: Client
+    private lateinit var globalClient: Client
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,14 +25,31 @@ class MainActivity : AppCompatActivity() {
         server.startServer()
         server.waitForConnection()
 
-        client = Client(domainname, port)
+        localClient = Client(localDomainname, port)
+        globalClient = Client(globalDomainname, port)
 
-        bnd.btnSend.setOnClickListener {
+
+        bnd.btnSendGlobal.setOnClickListener {
             if (bnd.txtMatrikelnummer.text.toString().isEmpty()) {
                 Toast.makeText(this, "Please enter a number!", Toast.LENGTH_SHORT).show()
             } else {
                 val matNr: String = bnd.txtMatrikelnummer.text.toString()
-                client.sendRequest(matNr, object: Client.ResponseListener{
+                globalClient.sendRequest(matNr, object: Client.ResponseListener{
+                    override fun onResponse(response: String) {
+                        runOnUiThread {
+                            bnd.lblServerAnswer.text = response
+                        }
+                    }
+                })
+            }
+        }
+
+        bnd.btnSendLocal.setOnClickListener {
+            if (bnd.txtMatrikelnummer.text.toString().isEmpty()) {
+                Toast.makeText(this, "Please enter a number!", Toast.LENGTH_SHORT).show()
+            } else {
+                val matNr: String = bnd.txtMatrikelnummer.text.toString()
+                localClient.sendRequest(matNr, object: Client.ResponseListener{
                     override fun onResponse(response: String) {
                         runOnUiThread {
                             bnd.lblServerAnswer.text = response
