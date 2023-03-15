@@ -32,7 +32,6 @@ class Server(private val port: Int) {
                 e.printStackTrace()
             } finally {
                 stopServer()
-                isRunning = false
             }
         }.start()
     }
